@@ -12,11 +12,12 @@ import { X, Save } from "lucide-react"
 
 interface ProductEditorProps {
   product: Product
+  isNew?: boolean
   onSave: (product: Product) => void
   onClose: () => void
 }
 
-export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) {
+export function ProductEditor({ product, isNew = false, onSave, onClose }: ProductEditorProps) {
   const [formData, setFormData] = useState<Product>(product)
 
   const handleSave = () => {
@@ -42,8 +43,8 @@ export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) 
     <Card className="w-full">
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
-          <CardTitle>{formData.name}</CardTitle>
-          <CardDescription>Edit product details</CardDescription>
+          <CardTitle>{isNew ? "Create New Product" : formData.name}</CardTitle>
+          <CardDescription>{isNew ? "Add a new product to your catalog" : "Edit product details"}</CardDescription>
         </div>
         <Button variant="ghost" size="icon" onClick={onClose}>
           <X className="h-4 w-4" />
@@ -127,7 +128,7 @@ export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) 
           <h3 className="font-semibold">Pricing & Inventory</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="price">Price ($)</Label>
+              <Label htmlFor="price">Price (€/month)</Label>
               <Input
                 id="price"
                 type="number"
@@ -210,7 +211,7 @@ export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) 
         <div className="flex gap-2 pt-4">
           <Button onClick={handleSave} className="gap-2">
             <Save className="h-4 w-4" />
-            Save Changes
+            {isNew ? "Create Product" : "Save Changes"}
           </Button>
           <Button variant="outline" onClick={onClose}>
             Cancel

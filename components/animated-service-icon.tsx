@@ -1,7 +1,6 @@
 "use client"
 
 import { memo, useState } from "react"
-import { motion } from "framer-motion"
 import { Server, Globe, HardDrive, Gamepad2, Database, Shield, Zap, Cloud } from "lucide-react"
 
 type AnimatedServiceIconProps = {
@@ -46,68 +45,39 @@ const AnimatedServiceIconContent = memo(function AnimatedServiceIconContent({
     }
   }
 
-  const getAnimation = () => {
+  const getAnimationClass = () => {
+    if (!isHovered) return ""
+
     switch (type) {
       case "server":
-        return {
-          animate: isHovered ? { y: [0, -5, 0], scale: [1, 1.1, 1] } : {},
-          transition: { duration: 0.5 },
-        }
+        return "animate-bounce"
       case "domain":
-        return {
-          animate: isHovered ? { rotate: [0, 15, -15, 0] } : {},
-          transition: { duration: 0.5 },
-        }
+        return "animate-spin"
       case "storage":
-        return {
-          animate: isHovered ? { scale: [1, 1.2, 1] } : {},
-          transition: { duration: 0.5 },
-        }
+        return "scale-110"
       case "gameserver":
-        return {
-          animate: isHovered ? { rotate: [0, -10, 10, -10, 0] } : {},
-          transition: { duration: 0.5 },
-        }
+        return "animate-pulse"
       case "database":
-        return {
-          animate: isHovered ? { y: [0, -5, 0, -5, 0] } : {},
-          transition: { duration: 0.7 },
-        }
+        return "animate-bounce"
       case "security":
-        return {
-          animate: isHovered ? { scale: [1, 1.2, 1] } : {},
-          transition: { duration: 0.5 },
-        }
+        return "scale-110"
       case "performance":
-        return {
-          animate: isHovered ? { x: [0, 5, -5, 5, 0] } : {},
-          transition: { duration: 0.3 },
-        }
+        return "animate-pulse"
       case "cloud":
-        return {
-          animate: isHovered ? { y: [0, -5, 0] } : {},
-          transition: { duration: 0.7 },
-        }
+        return "animate-bounce"
       default:
-        return {
-          animate: isHovered ? { scale: [1, 1.1, 1] } : {},
-          transition: { duration: 0.5 },
-        }
+        return "scale-110"
     }
   }
 
-  const animation = getAnimation()
-
   return (
-    <motion.div
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      animate={animation.animate}
-      transition={animation.transition}
-      className="inline-flex"
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`inline-flex transition-transform duration-300 ${getAnimationClass()}`}
     >
       {getIcon()}
-    </motion.div>
+    </div>
   )
 })
 

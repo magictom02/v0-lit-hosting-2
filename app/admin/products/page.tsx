@@ -7,16 +7,23 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ProductEditor } from "@/components/admin/product-editor"
 import type { Product } from "@/types/products"
-import { Edit2, RotateCcw, AlertCircle } from "lucide-react"
+import { Edit2, RotateCcw, AlertCircle, CheckCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { BulkOperations } from "@/components/admin/bulk-operations"
 
 export default function AdminProductsPage() {
-  const { products, isLoaded, updateProduct, resetProducts } = useProducts()
+  const { products, isLoaded, updateProduct, resetProducts, addProduct } = useProducts()
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
+  const [isAddingProduct, setIsAddingProduct] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState<string>("all")
+  const [saveStatus, setSaveStatus] = useState<"success" | null>(null)
+
+  const handleSaveSuccess = () => {
+    setSaveStatus("success")
+    setTimeout(() => setSaveStatus(null), 3000)
+  }
 
   if (!isLoaded) {
     return (
@@ -38,7 +45,25 @@ export default function AdminProductsPage() {
     if (window.confirm("Are you sure you want to reset all products to default? This cannot be undone.")) {
       resetProducts()
       setEditingProduct(null)
+      handleSaveSuccess()
     }
+  }
+
+  const newProductTemplate: Product = {
+    id: `product-${Date.now()}`,
+    category: "webhosting",
+    name: "New Product",
+    tagline: "Enter your product tagline",
+    description: "",
+    bullets: [],
+    badges: [],
+    status: "live",
+    cta: { label: "Get Started", href: "#", variant: "primary" },
+    secondaryCta: { label: "Learn More", href: "#", variant: "secondary" },
+    route: "/products/new-product",
+    orderIndex: products.length + 1,
+    price: 0,
+    stock: 0,
   }
 
   return (
@@ -51,13 +76,36 @@ export default function AdminProductsPage() {
       <Alert>
         <AlertCircle className="h-4 w-4" />
         <AlertDescription>
-          Changes are saved to your browser's local storage and will persist across sessions. Clearing your browser data
-          will reset products.
+          Changes are automatically saved to your server and persist across all browsers and devices.
         </AlertDescription>
       </Alert>
 
-      {editingProduct ? (
-        <ProductEditor product={editingProduct} onSave={updateProduct} onClose={() => setEditingProduct(null)} />
+      {saveStatus === "success" && (
+        <Alert className="bg-green-50 border-green-200 dark:bg-green-950 dark:border-green-800">
+          <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+          <AlertDescription className="text-green-800 dark:text-green-200">
+            Products saved successfully to server!
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {editingProduct || isAddingProduct ? (
+        <ProductEditor
+          product={editingProduct || newProductTemplate}
+          isNew={isAddingProduct}
+          onSave={(product) => {
+            if (isAddingProduct) {
+              addProduct(product)
+            } else {
+              updateProduct(product.id, product)
+            }
+            handleSaveSuccess()
+          }}
+          onClose={() => {
+            setEditingProduct(null)
+            setIsAddingProduct(false)
+          }}
+        />
       ) : (
         <>
           <div className="space-y-4">
@@ -88,10 +136,15 @@ export default function AdminProductsPage() {
                   </Select>
                 </div>
               </div>
-              <Button variant="destructive" onClick={handleReset} className="gap-2">
-                <RotateCcw className="h-4 w-4" />
-                Reset All
-              </Button>
+              <div className="flex gap-2">
+                <Button onClick={() => setIsAddingProduct(true)} className="gap-2">
+                  Add Product
+                </Button>
+                <Button variant="destructive" onClick={handleReset} className="gap-2">
+                  <RotateCcw className="h-4 w-4" />
+                  Reset All
+                </Button>
+              </div>
             </div>
           </div>
 

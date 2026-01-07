@@ -198,6 +198,7 @@ export default function Home() {
                   alt="German data center server room with modern infrastructure"
                   priority={false}
                   className="rounded-lg object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
                 />
               </div>
             </div>

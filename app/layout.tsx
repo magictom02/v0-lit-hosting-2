@@ -48,7 +48,7 @@ export const metadata = {
   alternates: {
     canonical: "https://lit-hosting.de",
   },
-    generator: 'v0.app'
+  generator: "v0.app",
 }
 
 export const viewport = {
@@ -64,6 +64,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="preload" as="style" href="/_next/static/css/main.css" />
+        <meta httpEquiv="x-dns-prefetch-control" content="on" />
+        <link rel="dns-prefetch" href="//cdn.vercel-insights.com" />
+        <link rel="preconnect" href="//cdn.vercel-insights.com" />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

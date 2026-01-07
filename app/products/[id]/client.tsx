@@ -4,12 +4,13 @@ import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import { notFound } from "next/navigation"
 import { useProducts } from "@/hooks/use-products"
+import { useCart } from "@/hooks/use-cart"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { ArrowLeft, CheckCircle2 } from "lucide-react"
+import { ArrowLeft, CheckCircle2, Plus } from "lucide-react"
 import type { Product } from "@/types/products"
 import { products as defaultProducts } from "@/data/products"
 
@@ -17,8 +18,10 @@ export default function ProductDetailPageClient() {
   const params = useParams()
   const productId = params.id as string
   const { products, isLoaded } = useProducts()
+  const { addToCart } = useCart()
   const [product, setProduct] = useState<Product | null>(null)
   const [isInitialized, setIsInitialized] = useState(false)
+  const [isAdded, setIsAdded] = useState(false)
 
   useEffect(() => {
     if (isLoaded && products.length > 0) {
@@ -36,6 +39,14 @@ export default function ProductDetailPageClient() {
     }
     setIsInitialized(true)
   }, [productId, products, isLoaded])
+
+  const handleAddToCart = () => {
+    if (product) {
+      addToCart(product.id, 1)
+      setIsAdded(true)
+      setTimeout(() => setIsAdded(false), 2000)
+    }
+  }
 
   if (isInitialized && !product) {
     notFound()
@@ -86,13 +97,25 @@ export default function ProductDetailPageClient() {
               <h1 className="text-5xl md:text-6xl font-bold mb-6 text-balance">{product.name}</h1>
               <p className="text-xl text-muted-foreground mb-8 text-balance">{product.tagline}</p>
               {product.description && <p className="text-lg text-foreground/80 mb-8">{product.description}</p>}
-              <div className="flex flex-wrap gap-3">
-                <Button size="lg" className="bg-primary hover:bg-primary/90">
-                  {product.cta.label}
-                </Button>
-                <Button size="lg" variant="outline">
-                  {product.secondaryCta.label}
-                </Button>
+
+              <div className="flex flex-col gap-4 mb-8">
+                {product.price && (
+                  <div className="text-3xl font-bold text-primary">€{product.price.toFixed(2)}/month</div>
+                )}
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    onClick={handleAddToCart}
+                    size="lg"
+                    className="gap-2"
+                    variant={isAdded ? "default" : "default"}
+                  >
+                    <Plus className="w-5 h-5" />
+                    {isAdded ? "Added to Cart!" : "Add to Cart"}
+                  </Button>
+                  <Button size="lg" variant="outline">
+                    {product.secondaryCta.label}
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -155,8 +178,9 @@ export default function ProductDetailPageClient() {
               {product.description || product.tagline}
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Button size="lg" className="bg-primary hover:bg-primary/90">
-                {product.cta.label}
+              <Button onClick={handleAddToCart} size="lg" className="gap-2">
+                <Plus className="w-5 h-5" />
+                {isAdded ? "Added to Cart!" : "Add to Cart"}
               </Button>
               <Button size="lg" variant="outline">
                 Contact Sales

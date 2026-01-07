@@ -1,13 +1,12 @@
 "use client"
 
 import type React from "react"
-import { memo, useState, useCallback } from "react"
+import { memo, useState, useCallback, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card } from "@/components/ui/card"
 import { MessageCircle, X, Send, Minimize2, Maximize2 } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
 
 type Message = {
   id: number
@@ -43,12 +42,7 @@ const ChatContent = memo(function ChatContent({
   onClose: () => void
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.9, y: 20 }}
-      className="mb-2"
-    >
+    <div className="mb-2 animate-in fade-in scale-in-95 duration-300">
       <Card className="w-80 sm:w-96 shadow-lg border overflow-hidden">
         <div className="bg-[#3cdd4a] text-white p-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -101,7 +95,7 @@ const ChatContent = memo(function ChatContent({
           </Button>
         </div>
       </Card>
-    </motion.div>
+    </div>
   )
 })
 
@@ -110,6 +104,7 @@ export const LiveChat = memo(function LiveChat() {
   const [isMinimized, setIsMinimized] = useState(false)
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [newMessage, setNewMessage] = useState("")
+  const [isMounted, setIsMounted] = useState(false)
 
   const handleSendMessage = useCallback(() => {
     if (!newMessage.trim()) return
@@ -155,47 +150,45 @@ export const LiveChat = memo(function LiveChat() {
     [handleSendMessage],
   )
 
-  return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="fixed bottom-4 right-4 z-50">
-      <AnimatePresence>
-        {isOpen && !isMinimized && (
-          <ChatContent
-            messages={messages}
-            newMessage={newMessage}
-            onMessageChange={setNewMessage}
-            onSendMessage={handleSendMessage}
-            onKeyPress={handleKeyPress}
-            onMinimize={() => setIsMinimized(true)}
-            onClose={() => setIsOpen(false)}
-          />
-        )}
-      </AnimatePresence>
+  useEffect(() => {
+    // Mark as mounted so component can render
+    setIsMounted(true)
+  }, [])
 
-      <AnimatePresence>
-        {isOpen && isMinimized && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            className="mb-2"
+  if (!isMounted) return null
+
+  return (
+    <div className="fixed bottom-4 right-4 z-50">
+      {isOpen && !isMinimized && (
+        <ChatContent
+          messages={messages}
+          newMessage={newMessage}
+          onMessageChange={setNewMessage}
+          onSendMessage={handleSendMessage}
+          onKeyPress={handleKeyPress}
+          onMinimize={() => setIsMinimized(true)}
+          onClose={() => setIsOpen(false)}
+        />
+      )}
+
+      {isOpen && isMinimized && (
+        <div className="mb-2 animate-in fade-in slide-in-from-bottom-2 duration-300">
+          <Button
+            className="bg-[#3cdd4a] hover:bg-[#2bb039] text-white shadow-lg flex items-center gap-2 pr-4"
+            onClick={() => setIsMinimized(false)}
           >
-            <Button
-              className="bg-[#3cdd4a] hover:bg-[#2bb039] text-white shadow-lg flex items-center gap-2 pr-4"
-              onClick={() => setIsMinimized(false)}
-            >
-              <Avatar className="h-6 w-6 border border-white">
-                <AvatarImage src="/support-avatar.png" alt="Support" />
-                <AvatarFallback>LH</AvatarFallback>
-              </Avatar>
-              <span>Lit-Hosting Support</span>
-              <Maximize2 className="h-4 w-4 ml-1" />
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <Avatar className="h-6 w-6 border border-white">
+              <AvatarImage src="/support-avatar.png" alt="Support" />
+              <AvatarFallback>LH</AvatarFallback>
+            </Avatar>
+            <span>Lit-Hosting Support</span>
+            <Maximize2 className="h-4 w-4 ml-1" />
+          </Button>
+        </div>
+      )}
 
       <Button
-        className={`rounded-full h-14 w-14 shadow-lg transition-transform hover:scale-110 ${
+        className={`rounded-full h-14 w-14 shadow-lg hover:scale-110 transition-transform ${
           isOpen ? "bg-muted hover:bg-muted/80" : "bg-[#3cdd4a] hover:bg-[#2bb039]"
         }`}
         onClick={() => {
@@ -209,6 +202,6 @@ export const LiveChat = memo(function LiveChat() {
       >
         {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
       </Button>
-    </motion.div>
+    </div>
   )
 })

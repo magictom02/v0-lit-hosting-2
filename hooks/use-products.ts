@@ -4,36 +4,60 @@ import { useState, useEffect, useCallback } from "react"
 import type { Product } from "@/types/products"
 import { products as defaultProducts } from "@/data/products"
 
-const PRODUCTS_STORAGE_KEY = "lit-hosting-products"
-
 export function useProducts() {
   const [products, setProducts] = useState<Product[]>(defaultProducts)
   const [isLoaded, setIsLoaded] = useState(false)
 
-  // Load products from localStorage on mount
   useEffect(() => {
-    const stored = localStorage.getItem(PRODUCTS_STORAGE_KEY)
-    if (stored) {
+    const loadProducts = async () => {
       try {
-        setProducts(JSON.parse(stored))
+        const response = await fetch("/api/products")
+        if (response.ok) {
+          const data = await response.json()
+          if (data && data.length > 0) {
+            setProducts(data)
+          }
+        }
       } catch (error) {
-        console.error("Failed to parse stored products:", error)
+        console.error("Failed to load products from server:", error)
+        // Fall back to default products
         setProducts(defaultProducts)
+      } finally {
+        setIsLoaded(true)
       }
     }
-    setIsLoaded(true)
+
+    loadProducts()
   }, [])
 
-  // Save products to localStorage
-  const saveProducts = useCallback((updatedProducts: Product[]) => {
+  const saveProducts = useCallback(async (updatedProducts: Product[]) => {
     setProducts(updatedProducts)
-    localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(updatedProducts))
+    try {
+      const response = await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedProducts),
+      })
+      if (!response.ok) {
+        console.error("Failed to save products to server")
+      }
+    } catch (error) {
+      console.error("Error saving products:", error)
+    }
   }, [])
 
   // Update a single product
   const updateProduct = useCallback(
     (id: string, updates: Partial<Product>) => {
       const updated = products.map((p) => (p.id === id ? { ...p, ...updates } : p))
+      saveProducts(updated)
+    },
+    [products, saveProducts],
+  )
+
+  const addProduct = useCallback(
+    (newProduct: Product) => {
+      const updated = [...products, newProduct]
       saveProducts(updated)
     },
     [products, saveProducts],
@@ -48,6 +72,7 @@ export function useProducts() {
     products,
     isLoaded,
     updateProduct,
+    addProduct,
     saveProducts,
     resetProducts,
   }
