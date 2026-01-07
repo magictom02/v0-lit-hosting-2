@@ -48,6 +48,11 @@ export default function AdminProductsPage() {
     }
   }
 
+  const handleProductSave = (id: string, updates: Partial<Product>) => {
+    updateProduct(id, updates)
+    handleSaveSuccess()
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-2">
@@ -72,14 +77,7 @@ export default function AdminProductsPage() {
       )}
 
       {editingProduct ? (
-        <ProductEditor
-          product={editingProduct}
-          onSave={(id, updates) => {
-            updateProduct(id, updates)
-            handleSaveSuccess()
-          }}
-          onClose={() => setEditingProduct(null)}
-        />
+        <ProductEditor product={editingProduct} onSave={handleProductSave} onClose={() => setEditingProduct(null)} />
       ) : (
         <>
           <div className="space-y-4">

@@ -12,7 +12,7 @@ import { X, Save } from "lucide-react"
 
 interface ProductEditorProps {
   product: Product
-  onSave: (product: Product) => void
+  onSave: (id: string, updates: Partial<Product>) => void
   onClose: () => void
 }
 
@@ -20,7 +20,19 @@ export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) 
   const [formData, setFormData] = useState<Product>(product)
 
   const handleSave = () => {
-    onSave(formData)
+    const updates: Partial<Product> = {}
+
+    // Only include fields that changed
+    if (formData.name !== product.name) updates.name = formData.name
+    if (formData.tagline !== product.tagline) updates.tagline = formData.tagline
+    if (formData.description !== product.description) updates.description = formData.description
+    if (formData.category !== product.category) updates.category = formData.category
+    if (formData.status !== product.status) updates.status = formData.status
+    if (formData.price !== product.price) updates.price = formData.price
+    if (formData.stock !== product.stock) updates.stock = formData.stock
+    if (JSON.stringify(formData.bullets) !== JSON.stringify(product.bullets)) updates.bullets = formData.bullets
+
+    onSave(product.id, updates)
     onClose()
   }
 
