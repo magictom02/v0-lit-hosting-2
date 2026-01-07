@@ -102,7 +102,7 @@ export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) 
               <Label htmlFor="category">Category</Label>
               <Select
                 value={formData.category}
-                onValueChange={(value: any) => setFormData({ ...formData, category: value })}
+                onValueChange={(value) => setFormData({ ...formData, category: value as Product["category"] })}
               >
                 <SelectTrigger id="category">
                   <SelectValue />
@@ -120,7 +120,7 @@ export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) 
               <Label htmlFor="status">Status</Label>
               <Select
                 value={formData.status}
-                onValueChange={(value: any) => setFormData({ ...formData, status: value })}
+                onValueChange={(value) => setFormData({ ...formData, status: value as Product["status"] })}
               >
                 <SelectTrigger id="status">
                   <SelectValue />
