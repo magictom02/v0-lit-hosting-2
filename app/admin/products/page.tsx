@@ -13,9 +13,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { BulkOperations } from "@/components/admin/bulk-operations"
 
 export default function AdminProductsPage() {
-  const { products, isLoaded, updateProduct, resetProducts, addProduct } = useProducts()
+  const { products, isLoaded, updateProduct, resetProducts } = useProducts()
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
-  const [isAddingProduct, setIsAddingProduct] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState<string>("all")
   const [saveStatus, setSaveStatus] = useState<"success" | null>(null)
@@ -49,23 +48,6 @@ export default function AdminProductsPage() {
     }
   }
 
-  const newProductTemplate: Product = {
-    id: `product-${Date.now()}`,
-    category: "webhosting",
-    name: "New Product",
-    tagline: "Enter your product tagline",
-    description: "",
-    bullets: [],
-    badges: [],
-    status: "live",
-    cta: { label: "Get Started", href: "#", variant: "primary" },
-    secondaryCta: { label: "Learn More", href: "#", variant: "secondary" },
-    route: "/products/new-product",
-    orderIndex: products.length + 1,
-    price: 0,
-    stock: 0,
-  }
-
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-2">
@@ -89,22 +71,14 @@ export default function AdminProductsPage() {
         </Alert>
       )}
 
-      {editingProduct || isAddingProduct ? (
+      {editingProduct ? (
         <ProductEditor
-          product={editingProduct || newProductTemplate}
-          isNew={isAddingProduct}
-          onSave={(product) => {
-            if (isAddingProduct) {
-              addProduct(product)
-            } else {
-              updateProduct(product.id, product)
-            }
+          product={editingProduct}
+          onSave={(id, updates) => {
+            updateProduct(id, updates)
             handleSaveSuccess()
           }}
-          onClose={() => {
-            setEditingProduct(null)
-            setIsAddingProduct(false)
-          }}
+          onClose={() => setEditingProduct(null)}
         />
       ) : (
         <>
@@ -136,15 +110,10 @@ export default function AdminProductsPage() {
                   </Select>
                 </div>
               </div>
-              <div className="flex gap-2">
-                <Button onClick={() => setIsAddingProduct(true)} className="gap-2">
-                  Add Product
-                </Button>
-                <Button variant="destructive" onClick={handleReset} className="gap-2">
-                  <RotateCcw className="h-4 w-4" />
-                  Reset All
-                </Button>
-              </div>
+              <Button variant="destructive" onClick={handleReset} className="gap-2">
+                <RotateCcw className="h-4 w-4" />
+                Reset All
+              </Button>
             </div>
           </div>
 

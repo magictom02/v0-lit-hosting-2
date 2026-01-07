@@ -55,14 +55,6 @@ export function useProducts() {
     [products, saveProducts],
   )
 
-  const addProduct = useCallback(
-    (newProduct: Product) => {
-      const updated = [...products, newProduct]
-      saveProducts(updated)
-    },
-    [products, saveProducts],
-  )
-
   // Reset to default products
   const resetProducts = useCallback(() => {
     saveProducts(defaultProducts)
@@ -72,7 +64,6 @@ export function useProducts() {
     products,
     isLoaded,
     updateProduct,
-    addProduct,
     saveProducts,
     resetProducts,
   }
