@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  swcMinify: true,
-  
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -10,18 +8,15 @@ const nextConfig = {
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    cacheControl: 'public, max-age=31536000, immutable',
   },
   
   eslint: {
-    ignoreBuildBuilds: true,
+    ignoreDuringBuilds: true,
   },
   
   compress: true,
   
   productionBrowserSourceMaps: false,
-  
-  optimizeFonts: true,
   
   webpack: (config, { isServer }) => {
     if (!isServer) {
