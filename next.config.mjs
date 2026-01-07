@@ -28,16 +28,10 @@ const nextConfig = {
             default: false,
             vendors: false,
             vendor: {
-              filename: 'chunks/vendor-[hash].js',
+              filename: 'chunks/vendor-[contenthash:8].js',
               test: /node_modules/,
               priority: 10,
-            },
-            common: {
-              filename: 'chunks/common-[hash].js',
-              minChunks: 2,
-              priority: 5,
               reuseExistingChunk: true,
-              enforce: true,
             },
           },
         },
