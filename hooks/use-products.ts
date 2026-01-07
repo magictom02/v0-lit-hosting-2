@@ -60,11 +60,25 @@ export function useProducts() {
     saveProducts(defaultProducts)
   }, [saveProducts])
 
+  const addProduct = useCallback(
+    (newProduct: Omit<Product, "id">) => {
+      const id = `product-${Date.now()}`
+      const product: Product = {
+        ...newProduct,
+        id,
+      }
+      const updated = [...products, product]
+      saveProducts(updated)
+    },
+    [products, saveProducts],
+  )
+
   return {
     products,
     isLoaded,
     updateProduct,
     saveProducts,
     resetProducts,
+    addProduct, // Export new function
   }
 }
