@@ -17,7 +17,7 @@ export function CartItem({ id, name, description, price, quantity, onUpdateQuant
   const itemTotal = price * quantity
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4">
+    <div className="flex flex-col sm:flex-row gap-4" suppressHydrationWarning>
       <div className="flex-1">
         <div className="flex flex-col sm:flex-row sm:justify-between mb-2">
           <div>

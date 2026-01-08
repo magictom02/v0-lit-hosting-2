@@ -69,7 +69,10 @@ export default function ProductDetailPageClient() {
   return (
     <>
       <SiteHeader />
-      <main className="min-h-screen bg-gradient-to-b from-background via-background to-background/50">
+      <main
+        className="min-h-screen bg-gradient-to-b from-background via-background to-background/50"
+        suppressHydrationWarning
+      >
         {/* Back Button */}
         <div className="border-b border-border/40">
           <div className="container py-4">
