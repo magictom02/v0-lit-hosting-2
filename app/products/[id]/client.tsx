@@ -22,9 +22,14 @@ export default function ProductDetailPageClient() {
   const [product, setProduct] = useState<Product | null>(null)
   const [isInitialized, setIsInitialized] = useState(false)
   const [isAdded, setIsAdded] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
-    if (isLoaded && products.length > 0) {
+    setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (isMounted && isLoaded && products.length > 0) {
       const foundProduct = products.find((p) => p.id === productId)
       if (foundProduct) {
         setProduct(foundProduct)
@@ -33,12 +38,14 @@ export default function ProductDetailPageClient() {
       }
     }
 
-    const defaultProduct = defaultProducts.find((p) => p.id === productId)
-    if (defaultProduct) {
-      setProduct(defaultProduct)
+    if (isMounted) {
+      const defaultProduct = defaultProducts.find((p) => p.id === productId)
+      if (defaultProduct) {
+        setProduct(defaultProduct)
+      }
+      setIsInitialized(true)
     }
-    setIsInitialized(true)
-  }, [productId, products, isLoaded])
+  }, [productId, products, isLoaded, isMounted])
 
   const handleAddToCart = () => {
     if (product) {
@@ -46,6 +53,18 @@ export default function ProductDetailPageClient() {
       setIsAdded(true)
       setTimeout(() => setIsAdded(false), 2000)
     }
+  }
+
+  if (!isMounted) {
+    return (
+      <>
+        <SiteHeader />
+        <main className="min-h-screen flex items-center justify-center">
+          <p className="text-muted-foreground">Initializing...</p>
+        </main>
+        <SiteFooter />
+      </>
+    )
   }
 
   if (isInitialized && !product) {
@@ -69,10 +88,7 @@ export default function ProductDetailPageClient() {
   return (
     <>
       <SiteHeader />
-      <main
-        className="min-h-screen bg-gradient-to-b from-background via-background to-background/50"
-        suppressHydrationWarning
-      >
+      <main className="min-h-screen bg-gradient-to-b from-background via-background to-background/50">
         {/* Back Button */}
         <div className="border-b border-border/40">
           <div className="container py-4">

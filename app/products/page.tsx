@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { useProducts } from "@/hooks/use-products"
 import { ProductCard } from "@/components/product-card"
 import { Button } from "@/components/ui/button"
@@ -13,6 +13,11 @@ export default function ProductsPage() {
   const { products, isLoaded } = useProducts()
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory | "all">("all")
   const [selectedStatus, setSelectedStatus] = useState<ProductStatus | "all">("all")
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const filteredProducts = useMemo(
     () => filterProducts(products, selectedCategory, selectedStatus),
@@ -20,6 +25,18 @@ export default function ProductsPage() {
   )
 
   const categories = getAllCategories()
+
+  if (!isMounted) {
+    return (
+      <>
+        <SiteHeader />
+        <main className="min-h-screen flex items-center justify-center">
+          <p className="text-muted-foreground">Initializing...</p>
+        </main>
+        <SiteFooter />
+      </>
+    )
+  }
 
   if (!isLoaded) {
     return (

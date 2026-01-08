@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { useCart } from "@/hooks/use-cart"
 import Link from "next/link"
 import { ModeToggle } from "@/components/mode-toggle"
@@ -16,7 +17,13 @@ import { products } from "@/data/products"
 
 export function SiteHeader() {
   const { cart } = useCart()
-  const cartCount = cart.reduce((total, item) => total + item.quantity, 0)
+  const [cartCount, setCartCount] = useState(0)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+    setCartCount(cart.reduce((total, item) => total + item.quantity, 0))
+  }, [cart])
 
   const productsByCategory = {
     cloud: products.filter((p) => p.category === "cloud"),
@@ -174,7 +181,7 @@ export function SiteHeader() {
                 <circle cx="19" cy="21" r="1" />
                 <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
               </svg>
-              {cartCount > 0 && (
+              {isMounted && cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
                   {cartCount}
                 </span>
