@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { useProducts } from "@/hooks/use-products"
 import { useOrders } from "@/hooks/use-orders"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,16 +7,10 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { DollarSign, ShoppingCart, TrendingUp, Eye } from "lucide-react"
 
 export default function AnalyticsDashboard() {
-  const [isClient, setIsClient] = useState(false)
-
   const { products, isLoaded: productsLoaded } = useProducts()
   const { orders, isLoaded: ordersLoaded, getAnalytics } = useOrders()
 
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  if (!isClient || !productsLoaded || !ordersLoaded) {
+  if (!productsLoaded || !ordersLoaded) {
     return (
       <div className="flex items-center justify-center p-8">
         <p className="text-muted-foreground">Loading analytics...</p>

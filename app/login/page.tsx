@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { Button } from "@/components/ui/button"
@@ -14,23 +14,6 @@ import { Eye, EyeOff } from "lucide-react"
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  if (!isMounted) {
-    return (
-      <div className="flex min-h-screen flex-col">
-        <SiteHeader />
-        <main className="flex-1 flex items-center justify-center py-8 px-4">
-          <p className="text-muted-foreground">Loading...</p>
-        </main>
-        <SiteFooter />
-      </div>
-    )
-  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -215,7 +198,7 @@ export default function LoginPage() {
               <div className="grid grid-cols-2 gap-4">
                 <Button
                   variant="outline"
-                  className="h-12 border-[#3cdd4a]/30 hover:bg-[#3cdd4a]/10 hover:text-[#3cdd4a] bg-transparent"
+                  className="h-12 border-[#3cdd4a]/30 hover:bg-[#3cdd4a]/10 hover:text-[#3cdd4a]"
                   onClick={() => (window.location.href = "/dashboard")}
                 >
                   <svg
@@ -237,7 +220,7 @@ export default function LoginPage() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="h-12 border-[#3cdd4a]/30 hover:bg-[#3cdd4a]/10 hover:text-[#3cdd4a] bg-transparent"
+                  className="h-12 border-[#3cdd4a]/30 hover:bg-[#3cdd4a]/10 hover:text-[#3cdd4a]"
                   onClick={() => (window.location.href = "/admin")}
                 >
                   <svg
@@ -270,7 +253,7 @@ export default function LoginPage() {
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" className="h-12 bg-transparent">
+                <Button variant="outline" className="h-12">
                   <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
                     <path
                       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -292,7 +275,7 @@ export default function LoginPage() {
                   </svg>
                   Google
                 </Button>
-                <Button variant="outline" className="h-12 bg-transparent">
+                <Button variant="outline" className="h-12">
                   <svg className="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
                   </svg>
