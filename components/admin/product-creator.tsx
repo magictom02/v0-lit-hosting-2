@@ -10,30 +10,37 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { X, Save } from "lucide-react"
 
-interface ProductEditorProps {
-  product: Product
-  onSave: (id: string, updates: Partial<Product>) => void
+interface ProductCreatorProps {
+  onSave: (product: Omit<Product, "id">) => void
   onClose: () => void
 }
 
-export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) {
-  const [formData, setFormData] = useState<Product>(product)
+export function ProductCreator({ onSave, onClose }: ProductCreatorProps) {
+  const [formData, setFormData] = useState<Omit<Product, "id">>({
+    name: "",
+    tagline: "",
+    description: "",
+    category: "webhosting",
+    status: "coming_soon",
+    bullets: ["", "", ""],
+    badges: ["New"],
+    cta: { label: "Learn More", href: "#", variant: "primary" },
+    secondaryCta: { label: "Contact Us", href: "/contact", variant: "secondary" },
+    route: "/products",
+    orderIndex: 999,
+    price: 9.99,
+    stock: 50,
+    views: 0,
+    sales: 0,
+  })
 
   const handleSave = () => {
-    const updates: Partial<Product> = {}
+    if (!formData.name.trim() || !formData.tagline.trim()) {
+      alert("Please fill in product name and tagline")
+      return
+    }
 
-    // Only include fields that changed
-    if (formData.name !== product.name) updates.name = formData.name
-    if (formData.tagline !== product.tagline) updates.tagline = formData.tagline
-    if (formData.description !== product.description) updates.description = formData.description
-    if (formData.category !== product.category) updates.category = formData.category
-    if (formData.status !== product.status) updates.status = formData.status
-    if (formData.price !== product.price) updates.price = formData.price
-    if (formData.stock !== product.stock) updates.stock = formData.stock
-    if (JSON.stringify(formData.bullets) !== JSON.stringify(product.bullets)) updates.bullets = formData.bullets
-
-    onSave(product.id, updates)
-    onClose()
+    onSave(formData)
   }
 
   const handleBulletChange = (index: number, value: string) => {
@@ -54,8 +61,8 @@ export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) 
     <Card className="w-full">
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
-          <CardTitle>{formData.name}</CardTitle>
-          <CardDescription>Edit product details</CardDescription>
+          <CardTitle>Create New Product</CardTitle>
+          <CardDescription>Add a new product to your catalog</CardDescription>
         </div>
         <Button variant="ghost" size="icon" onClick={onClose}>
           <X className="h-4 w-4" />
@@ -67,19 +74,21 @@ export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) 
           <h3 className="font-semibold">Basic Information</h3>
           <div className="space-y-3">
             <div>
-              <Label htmlFor="name">Product Name</Label>
+              <Label htmlFor="name">Product Name *</Label>
               <Input
                 id="name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="e.g. VPS Hosting"
               />
             </div>
             <div>
-              <Label htmlFor="tagline">Tagline</Label>
+              <Label htmlFor="tagline">Tagline *</Label>
               <Input
                 id="tagline"
                 value={formData.tagline}
                 onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
+                placeholder="e.g. Fast & Reliable Virtual Servers"
               />
             </div>
             <div>
@@ -88,6 +97,7 @@ export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) 
                 id="description"
                 value={formData.description || ""}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                placeholder="Optional product description"
                 rows={3}
               />
             </div>
@@ -135,11 +145,12 @@ export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) 
           </div>
         </div>
 
+        {/* Pricing & Inventory */}
         <div className="space-y-4">
           <h3 className="font-semibold">Pricing & Inventory</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="price">Price ($)</Label>
+              <Label htmlFor="price">Price (€)</Label>
               <Input
                 id="price"
                 type="number"
@@ -162,39 +173,7 @@ export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) 
           </div>
         </div>
 
-        <div className="space-y-4">
-          <h3 className="font-semibold">Analytics</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="views">Product Views</Label>
-              <Input
-                id="views"
-                type="number"
-                min="0"
-                value={formData.views || 0}
-                onChange={(e) => setFormData({ ...formData, views: Number.parseInt(e.target.value) || 0 })}
-                disabled
-                className="text-muted-foreground"
-              />
-              <p className="text-xs text-muted-foreground mt-1">Read-only, updated automatically</p>
-            </div>
-            <div>
-              <Label htmlFor="sales">Total Sales</Label>
-              <Input
-                id="sales"
-                type="number"
-                min="0"
-                value={formData.sales || 0}
-                onChange={(e) => setFormData({ ...formData, sales: Number.parseInt(e.target.value) || 0 })}
-                disabled
-                className="text-muted-foreground"
-              />
-              <p className="text-xs text-muted-foreground mt-1">Read-only, updated automatically</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Bullets */}
+        {/* Features */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold">Features</h3>
@@ -222,7 +201,7 @@ export function ProductEditor({ product, onSave, onClose }: ProductEditorProps) 
         <div className="flex gap-2 pt-4">
           <Button onClick={handleSave} className="gap-2">
             <Save className="h-4 w-4" />
-            Save Changes
+            Create Product
           </Button>
           <Button variant="outline" onClick={onClose}>
             Cancel

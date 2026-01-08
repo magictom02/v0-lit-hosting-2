@@ -7,7 +7,6 @@ import { DashboardPreview } from "@/components/dashboard-preview"
 import { LiveChat } from "@/components/live-chat"
 import { AnimatedServiceIcon } from "@/components/animated-service-icon"
 import { AnimatedButton } from "@/components/animated-button"
-import { VideoBackground } from "@/components/video-background"
 
 export const metadata = {
   title: "Fast & Reliable Web Hosting | Lit-Hosting",
@@ -21,7 +20,6 @@ export default function Home() {
       <SiteHeader />
       <main className="flex-1">
         <section className="relative w-full py-12 md:py-24 lg:py-32">
-          <VideoBackground />
           <div className="container relative z-10 px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -200,6 +198,7 @@ export default function Home() {
                   alt="German data center server room with modern infrastructure"
                   priority={false}
                   className="rounded-lg object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
                 />
               </div>
             </div>

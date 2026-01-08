@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { Button } from "@/components/ui/button"
@@ -14,6 +14,11 @@ import { Eye, EyeOff } from "lucide-react"
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -47,7 +52,7 @@ export default function LoginPage() {
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <Label htmlFor="password">Password</Label>
-                          <Link href="/forgot-password" className="text-sm text-muted-foreground hover:text-[#3cdd4a]">
+                          <Link href="/forgot-password" className="text-sm text-muted-foreground hover:text-primary">
                             Forgot password?
                           </Link>
                         </div>
@@ -73,7 +78,7 @@ export default function LoginPage() {
                       </div>
                       <Button
                         type="submit"
-                        className="w-full bg-[#3cdd4a] text-white hover:bg-[#2bb039] h-12 text-base"
+                        className="w-full bg-primary text-white hover:bg-primary/90 h-12 text-base"
                         onClick={(e) => {
                           e.preventDefault()
                           window.location.href = "/dashboard"
@@ -156,16 +161,16 @@ export default function LoginPage() {
                           <input
                             type="checkbox"
                             id="terms"
-                            className="h-5 w-5 rounded border-gray-300 text-[#3cdd4a] focus:ring-[#3cdd4a]"
+                            className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary"
                             required
                           />
                           <label htmlFor="terms" className="text-sm text-muted-foreground">
                             I agree to the{" "}
-                            <Link href="/terms" className="text-[#3cdd4a] hover:underline">
+                            <Link href="/terms" className="text-primary hover:underline">
                               Terms of Service
                             </Link>{" "}
                             and{" "}
-                            <Link href="/privacy" className="text-[#3cdd4a] hover:underline">
+                            <Link href="/privacy" className="text-primary hover:underline">
                               Privacy Policy
                             </Link>
                           </label>
@@ -173,7 +178,7 @@ export default function LoginPage() {
                       </div>
                       <Button
                         type="submit"
-                        className="w-full bg-[#3cdd4a] text-white hover:bg-[#2bb039] h-12 text-base"
+                        className="w-full bg-primary text-white hover:bg-primary/90 h-12 text-base"
                         onClick={(e) => {
                           e.preventDefault()
                           window.location.href = "/dashboard"
@@ -198,7 +203,7 @@ export default function LoginPage() {
               <div className="grid grid-cols-2 gap-4">
                 <Button
                   variant="outline"
-                  className="h-12 border-[#3cdd4a]/30 hover:bg-[#3cdd4a]/10 hover:text-[#3cdd4a]"
+                  className="h-12 border-primary/30 hover:bg-primary/10 hover:text-primary bg-transparent"
                   onClick={() => (window.location.href = "/dashboard")}
                 >
                   <svg
@@ -211,7 +216,7 @@ export default function LoginPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="mr-2 h-5 w-5 text-[#3cdd4a]"
+                    className="mr-2 h-5 w-5 text-primary"
                   >
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
@@ -220,7 +225,7 @@ export default function LoginPage() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="h-12 border-[#3cdd4a]/30 hover:bg-[#3cdd4a]/10 hover:text-[#3cdd4a]"
+                  className="h-12 border-primary/30 hover:bg-primary/10 hover:text-primary bg-transparent"
                   onClick={() => (window.location.href = "/admin")}
                 >
                   <svg
@@ -233,7 +238,7 @@ export default function LoginPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="mr-2 h-5 w-5 text-[#3cdd4a]"
+                    className="mr-2 h-5 w-5 text-primary"
                   >
                     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                     <circle cx="9" cy="7" r="4"></circle>
@@ -253,7 +258,7 @@ export default function LoginPage() {
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" className="h-12">
+                <Button variant="outline" className="h-12 bg-transparent">
                   <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
                     <path
                       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -275,7 +280,7 @@ export default function LoginPage() {
                   </svg>
                   Google
                 </Button>
-                <Button variant="outline" className="h-12">
+                <Button variant="outline" className="h-12 bg-transparent">
                   <svg className="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
                   </svg>

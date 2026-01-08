@@ -6,10 +6,36 @@ const nextConfig = {
   images: {
     unoptimized: false,
     formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   
   eslint: {
-    ignoreBuildBuilds: true,
+    ignoreDuringBuilds: true,
+  },
+  
+  compress: true,
+  
+  productionBrowserSourceMaps: false,
+  
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              priority: 10,
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      }
+    }
+    return config
   },
 }
 

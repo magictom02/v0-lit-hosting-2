@@ -1,0 +1,170 @@
+[
+  {
+    "id": "domain",
+    "category": "domains",
+    "name": "Domains",
+    "tagline": "Registrieren, transferieren und verwalten.",
+    "bullets": ["Registrierung & Transfer", "DNS-Verwaltung", "Auto-Renew (optional)"],
+    "badges": ["Coming Soon"],
+    "status": "coming_soon",
+    "cta": { "label": "Domains ansehen", "href": "/domains", "variant": "primary" },
+    "secondaryCta": { "label": "Benachrichtigen lassen", "href": "/waitlist?product=domain", "variant": "secondary" },
+    "route": "/domains",
+    "orderIndex": 10,
+    "price": 8.99,
+    "stock": 100,
+    "views": 1250,
+    "sales": 0
+  },
+  {
+    "id": "cloud-server",
+    "category": "cloud",
+    "name": "Cloud Server",
+    "tagline": "Flexible VMs für Workloads jeder Größe.",
+    "bullets": ["Schnell skalierbar", "Snapshots (später)", "API/CLI (später)"],
+    "badges": ["Beta"],
+    "status": "beta",
+    "cta": { "label": "Mehr erfahren", "href": "/cloud/server", "variant": "primary" },
+    "secondaryCta": { "label": "Anfrage stellen", "href": "/contact?topic=cloud-server", "variant": "secondary" },
+    "route": "/cloud/server",
+    "orderIndex": 20,
+    "price": 19.99,
+    "stock": 50,
+    "views": 2840,
+    "sales": 42,
+    "plans": [
+      {
+        "id": "starter",
+        "name": "Starter",
+        "highlights": ["Für kleine Projekte", "Schnell startklar", "Upgrade jederzeit"],
+        "status": "beta"
+      },
+      {
+        "id": "pro",
+        "name": "Pro",
+        "highlights": ["Für produktive Workloads", "Mehr Ressourcen", "Priorisierte Features (später)"],
+        "status": "beta"
+      }
+    ]
+  },
+  {
+    "id": "cloud-storage",
+    "category": "cloud",
+    "name": "Cloud Storage",
+    "tagline": "Storage für Backups, Daten und Assets.",
+    "bullets": ["Sicher & flexibel", "Für Backups geeignet", "S3/Volumes (später)"],
+    "badges": ["Coming Soon"],
+    "status": "coming_soon",
+    "cta": { "label": "Mehr erfahren", "href": "/cloud/storage", "variant": "primary" },
+    "secondaryCta": {
+      "label": "Benachrichtigen lassen",
+      "href": "/waitlist?product=cloud-storage",
+      "variant": "secondary"
+    },
+    "route": "/cloud/storage",
+    "orderIndex": 30,
+    "price": 4.99,
+    "stock": 200,
+    "views": 856,
+    "sales": 0
+  },
+  {
+    "id": "cloud-pc",
+    "category": "cloud",
+    "name": "Cloud PC",
+    "tagline": "Dein Desktop in der Cloud – überall verfügbar.",
+    "bullets": ["Remote Desktop Zugriff", "Geräteunabhängig", "Ideal für Office/Dev"],
+    "badges": ["Coming Soon"],
+    "status": "coming_soon",
+    "cta": { "label": "Mehr erfahren", "href": "/cloud/pc", "variant": "primary" },
+    "secondaryCta": { "label": "Benachrichtigen lassen", "href": "/waitlist?product=cloud-pc", "variant": "secondary" },
+    "route": "/cloud/pc",
+    "orderIndex": 40,
+    "price": 29.99,
+    "stock": 30,
+    "views": 1540,
+    "sales": 0
+  },
+  {
+    "id": "apps-marketplace",
+    "category": "app_hosting",
+    "name": "App Hosting",
+    "tagline": "Pre-built Apps mit wenigen Klicks deployen.",
+    "description": "One-click Deploy für Apps wie Nextcloud, Rocket.Chat, Home Assistant und mehr.",
+    "bullets": ["One-Click Deploy", "Backups/Updates optional", "Templates für beliebte Apps"],
+    "badges": ["Beta"],
+    "status": "beta",
+    "cta": { "label": "Zum Marketplace", "href": "/apps", "variant": "primary" },
+    "secondaryCta": { "label": "Apps vorschlagen", "href": "/contact?topic=apps-request", "variant": "secondary" },
+    "route": "/apps",
+    "orderIndex": 50,
+    "price": 9.99,
+    "stock": 75,
+    "views": 1890,
+    "sales": 18
+  },
+  {
+    "id": "apps-custom-deploy",
+    "category": "app_hosting",
+    "name": "Custom Deploy",
+    "tagline": "Deploy per Git oder Upload (bald).",
+    "bullets": ["Deploy aus Git", "Environment Variables", "Logs & Rollbacks (später)"],
+    "badges": ["Coming Soon"],
+    "status": "coming_soon",
+    "cta": { "label": "Mehr erfahren", "href": "/apps/deploy", "variant": "primary" },
+    "secondaryCta": {
+      "label": "Benachrichtigen lassen",
+      "href": "/waitlist?product=apps-custom-deploy",
+      "variant": "secondary"
+    },
+    "route": "/apps/deploy",
+    "orderIndex": 60,
+    "price": 14.99,
+    "stock": 40,
+    "views": 670,
+    "sales": 0
+  },
+  {
+    "id": "classic-webhosting",
+    "category": "webhosting",
+    "name": "Classic Webhosting",
+    "tagline": "Webspace für Websites, WordPress & Mail.",
+    "bullets": ["SSL inklusive", "E-Mail Postfächer", "Einfaches Hosting-Panel"],
+    "badges": ["Beta"],
+    "status": "beta",
+    "cta": { "label": "Webhosting ansehen", "href": "/webhosting", "variant": "primary" },
+    "secondaryCta": { "label": "Anfrage stellen", "href": "/contact?topic=webhosting", "variant": "secondary" },
+    "route": "/webhosting",
+    "orderIndex": 70,
+    "price": 6.99,
+    "stock": 120,
+    "views": 3200,
+    "sales": 87,
+    "plans": [
+      { "id": "starter", "name": "Starter", "highlights": ["Für 1 Projekt", "Schnell online", "Upgrade jederzeit"] },
+      { "id": "pro", "name": "Pro", "highlights": ["Für mehrere Websites", "Mehr Speicher", "Backups (später)"] },
+      { "id": "business", "name": "Business", "highlights": ["Für Teams", "Priorität Support", "Erweitert (später)"] }
+    ]
+  },
+  {
+    "id": "minecraft",
+    "category": "gameserver",
+    "name": "Minecraft Server",
+    "tagline": "Minecraft-Server in Sekunden startklar.",
+    "bullets": ["Vanilla/Spigot/Paper (je nach Setup)", "Modpacks (später)", "Einfach verwalten"],
+    "badges": ["Coming Soon"],
+    "status": "coming_soon",
+    "cta": { "label": "Minecraft ansehen", "href": "/gameserver/minecraft", "variant": "primary" },
+    "secondaryCta": {
+      "label": "Benachrichtigen lassen",
+      "href": "/waitlist?product=minecraft",
+      "variant": "secondary"
+    },
+    "route": "/gameserver/minecraft",
+    "orderIndex": 80,
+    "price": 12.99,
+    "stock": 85,
+    "views": 4100,
+    "sales": 156
+  }
+]
