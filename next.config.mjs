@@ -24,22 +24,12 @@ const nextConfig = {
         ...config.optimization,
         splitChunks: {
           chunks: 'all',
-          maxAsyncRequests: 30,
-          maxInitialRequests: 30,
-          minSize: 20000,
           cacheGroups: {
             vendor: {
               test: /[\\/]node_modules[\\/]/,
               name: 'vendors',
               priority: 10,
               reuseExistingChunk: true,
-              enforce: true,
-            },
-            common: {
-              minChunks: 2,
-              priority: 5,
-              reuseExistingChunk: true,
-              name: 'common',
             },
           },
         },
